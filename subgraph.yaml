@@ -6,7 +6,7 @@ dataSources:
     name: yamato
     network: rinkeby
     source:
-      address: "0x1960Ffafa3F1CC31FB50aa2284002573c8a5b1E4"   #rinkebyデプロイ後に追加
+      address: "0x664E34EDDAcCC08118829f4FE5EedcF2305F6567"   #rinkebyデプロイ後に追加
       abi: yamato 
       startBlock: 9500000
     mapping:
