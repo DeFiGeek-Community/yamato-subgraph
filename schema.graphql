@@ -1,0 +1,118 @@
+type Event implements Deposit & Withdraw & Borrow & Repay & LockYMT & IncreaseYMTLockTime & Redeem & Sweep @entity{
+  id: ID!
+  date: BigInt!
+  category: Category
+  ethAmount: BigInt
+  address: Bytes
+  fee: BigInt
+  cjpyAmount: BigInt
+  ymtAmount: BigInt
+  lockUntil: Int
+  price: BigInt
+  isCoreRedemption: Boolean
+  gasCompensationAmount: BigInt
+}
+
+interface Deposit{
+  id: ID!
+  date: BigInt!
+  ethAmount: BigInt
+  address: Bytes
+}
+
+interface Withdraw {
+  id: ID!
+  date: BigInt!
+  ethAmount: BigInt
+  address: Bytes
+}
+
+interface Borrow {
+  id: ID!
+  date: BigInt!
+  fee: BigInt
+  cjpyAmount: BigInt
+  address: Bytes
+}
+
+interface Repay {
+  id: ID!
+  date: BigInt!
+  cjpyAmount: BigInt
+  address: Bytes
+}
+
+interface LockYMT {
+  id: ID!
+  date: BigInt!
+  ymtAmount: BigInt
+  lockUntil: Int
+  address: Bytes
+}
+
+interface IncreaseYMTLockTime {
+  id: ID!
+  date: BigInt!
+  lockUntil: Int
+  address: Bytes
+}
+
+interface WithrawYMT {
+  id: ID!
+  date: BigInt!
+  ymtAmount: BigInt
+  address: Bytes
+}
+
+interface Redeem {
+  id: ID!
+  date: BigInt!
+  cjpyAmount: BigInt
+  ethAmount: BigInt
+  price: BigInt
+  isCoreRedemption: Boolean
+  gasCompensationAmount: BigInt
+  address: Bytes
+}
+
+interface Sweep{
+  id: ID!
+  date: BigInt!
+  cjpyAmount: BigInt
+  gasCompensationAmount: BigInt
+  address: Bytes
+}
+
+type Pledge @entity{
+  id: ID!
+  ethAmount: BigInt
+  borrowedCjpyAmount: BigInt!
+  withdrawLocks: BigInt!
+}
+
+type WorldState @entity{
+  id: ID!
+  totalColl: BigInt!
+  totalDebt: BigInt!
+  MCR: BigInt!
+  RRR: BigInt!
+  SRR: BigInt!
+  GRR: BigInt!
+  redemptionReserve: BigInt
+  sweepReserve: BigInt
+  totalSupplyCjpy: BigInt
+  lastPrice: BigInt
+  priceChange: BigDecimal
+}
+
+enum Category {
+  Deposit
+  Withdraw
+  Borrow
+  Repay
+  LockYMT
+  IncreaseYMTLockTime
+  WithrawYMT
+  Redeem
+  Sweep
+}

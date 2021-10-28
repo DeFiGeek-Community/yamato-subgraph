@@ -1,0 +1,86 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: yamato
+    network: rinkeby
+    source:
+      address: "0x1960Ffafa3F1CC31FB50aa2284002573c8a5b1E4"   #rinkebyデプロイ後に追加
+      abi: yamato 
+      startBlock: 9500000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Event
+        - Deposit
+        - Withdraw
+        - Borrow
+        - Repay
+        - Redeem
+        - Sweep
+        - Pledge
+        - WorldLog
+      abis:
+        - name: yamato
+          file: ./abis/yamato.json #コントラクト完成後に追加
+      eventHandlers:
+        - event: Deposited(indexed address,uint256) #ethAmount
+          handler: handleDeposit
+        - event: Withdrawn(indexed address,uint256) #ethAmount
+          handler: handleWithdraw
+        - event: Borrowed(indexed address,uint256,uint256) #cjpyAmount, fee
+          handler: handleBorrow
+        - event: Repaid(indexed address,uint256) #cjpyAmount
+          handler: handleRepay
+        - event: Redeemed(indexed address,uint256,uint256,indexed address[]) #sender, cjpyAmount, ethAmount
+          handler: handleRedeem
+        - event: RedeemedMeta(indexed address,uint256,bool,uint256) #sender, price, isCoreRedemption, gasCompensation
+          handler: handleRedeemMeta
+        - event: Swept(indexed address,uint256,uint256,address[]) #cjpyAmount, gasCompensationAmount
+          handler: handleSweep
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: Cjpy
+    network: rinkeby
+    source:
+      address: "0xb27ed27f0c7238b609fca871b15b3ffc66e7c9f1"
+      abi: cjpy
+      startBlock: 9500000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - WorldLog
+      abis:
+        - name: cjpy
+          file: ./abis/cjpy.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleMintAndBurn
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: priceFeed
+    network: rinkeby
+    source:
+      address: "0xd1efdbbc893b08270057a4a59bb4964407006d67"
+      abi: priceFeed
+      startBlock: 9500000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - WorldLog
+      abis:
+        - name: priceFeed
+          file: ./abis/priceFeed.json
+      eventHandlers:
+        - event: LastGoodPriceUpdated(uint256)
+          handler: handleFetchPrice
+      file: ./src/mapping.ts
+
+    
