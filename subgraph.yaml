@@ -22,7 +22,7 @@ dataSources:
         - Redeem
         - Sweep
         - Pledge
-        - WorldLog
+        - WorldState
       abis:
         - name: yamato
           file: ./abis/yamato.json #コントラクト完成後に追加
@@ -54,7 +54,7 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - WorldLog
+        - WorldState
       abis:
         - name: cjpy
           file: ./abis/cjpy.json
@@ -74,7 +74,7 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - WorldLog
+        - WorldState
       abis:
         - name: priceFeed
           file: ./abis/priceFeed.json
