@@ -4,13 +4,15 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ subgraph-account/yamato_test_subgraph",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ --access-token 49f6e4d46f3b411ba5667058c3521350 subgraph-account/yamato_test_subgraph",
     "create-local": "graph create --node http://localhost:8020/ DeFiGeek-Community/yamato-subgraph",
     "remove-local": "graph remove --node http://localhost:8020/ DeFiGeek-Community/yamato-subgraph",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 DeFiGeek-Community/yamato-subgraph"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.20.0",
-    "@graphprotocol/graph-ts": "0.20.0"
+    "@graphprotocol/graph-ts": "0.20.0",
+    "abi-decoder": "^2.4.0",
+    "ethers": "^5.5.1"
   }
 }

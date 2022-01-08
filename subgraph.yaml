@@ -6,7 +6,7 @@ dataSources:
     name: yamato
     network: rinkeby
     source:
-      address: "0x664E34EDDAcCC08118829f4FE5EedcF2305F6567"   #rinkebyデプロイ後に追加
+      address: "0xd93feb7ab94cc29ed6d4268bb90f8db96cc21fa8"   #rinkebyデプロイ後に追加
       abi: yamato 
       startBlock: 9500000
     mapping:
@@ -35,7 +35,7 @@ dataSources:
           handler: handleBorrow
         - event: Repaid(indexed address,uint256) #cjpyAmount
           handler: handleRepay
-        - event: Redeemed(indexed address,uint256,uint256,indexed address[]) #sender, cjpyAmount, ethAmount
+        - event: Redeemed(indexed address,uint256,uint256,address[]) #sender, cjpyAmount, ethAmount
           handler: handleRedeem
         - event: RedeemedMeta(indexed address,uint256,bool,uint256) #sender, price, isCoreRedemption, gasCompensation
           handler: handleRedeemMeta
@@ -46,7 +46,7 @@ dataSources:
     name: Cjpy
     network: rinkeby
     source:
-      address: "0xb27ed27f0c7238b609fca871b15b3ffc66e7c9f1"
+      address: "0xae188e37f1d918ed7fc81a6037ce1682d8ffad8e"
       abi: cjpy
       startBlock: 9500000
     mapping:
@@ -66,7 +66,7 @@ dataSources:
     name: priceFeed
     network: rinkeby
     source:
-      address: "0xd1efdbbc893b08270057a4a59bb4964407006d67"
+      address: "0x2c0f4a0b42827171f833451b7695de7137e6aed3"
       abi: priceFeed
       startBlock: 9500000
     mapping:
@@ -82,5 +82,30 @@ dataSources:
         - event: LastGoodPriceUpdated(uint256)
           handler: handleFetchPrice
       file: ./src/mapping.ts
-
+  - kind: ethereum/contract
+    name: pool
+    network: rinkeby
+    source:
+      address: "0xb86e7e12696ed2758A51eB5A54817Fa4E09a52D2"
+      abi: pool
+      startBlock: 9500000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - WorldState
+      abis:
+        - name: pool
+          file: ./abis/pool.json
+      eventHandlers:
+        - event: RedemptionReserveDeposited(address,uint256,uint256)
+          handler: handleRedemptionReserve
+        - event: RedemptionReserveUsed(address,uint256,uint256)
+          handler: handleRedemptionReserve
+        - event: SweepReserveDeposited(address,uint256,uint256)
+          handler: handleSweepReserve
+        - event: SweepReserveUsed(address,uint256,uint256)
+          handler: handleSweepReserve
+      file: ./src/mapping.ts
     

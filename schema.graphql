@@ -11,6 +11,8 @@ type Event implements Deposit & Withdraw & Borrow & Repay & LockYMT & IncreaseYM
   price: BigInt
   isCoreRedemption: Boolean
   gasCompensationAmount: BigInt
+  sweepedAddressList: [Bytes!]
+  redeemedAddressList: [Bytes!]
 }
 
 interface Deposit{
@@ -80,6 +82,7 @@ interface Sweep{
   date: BigInt!
   cjpyAmount: BigInt
   gasCompensationAmount: BigInt
+  sweepedAddressList: [Bytes!]
   address: Bytes
 }
 
@@ -87,7 +90,6 @@ type Pledge @entity{
   id: ID!
   ethAmount: BigInt
   borrowedCjpyAmount: BigInt!
-  withdrawLocks: BigInt!
 }
 
 type WorldState @entity{
@@ -101,7 +103,7 @@ type WorldState @entity{
   redemptionReserve: BigInt
   sweepReserve: BigInt
   totalSupplyCjpy: BigInt
-  lastPrice: BigInt
+  lastPrice: BigInt!
   priceChange: BigDecimal
 }
 
