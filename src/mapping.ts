@@ -51,57 +51,57 @@ export function handleDeposit(event: Deposited): void {
 
 export function handleBorrow(event: Borrowed): void {
   const borrow = new Event(event.transaction.hash.toHex());
-  const worldState = WorldState.load(CJPY_ADDRESS);
+  const worldState = WorldState.load(CJPY_ADDRESS)!;
   borrow.date = event.block.timestamp;
   borrow.fee = event.params.fee;
   borrow.cjpyAmount = event.params.cjpyAmount;
   borrow.address = event.transaction.from;
   borrow.category = "Borrow";
   borrow.save();
-  worldState!.totalDebt = event.params.cjpyAmount.plus(worldState!.totalDebt);
-  worldState!.save();
-  let pledge = Pledge.load(event.transaction.from.toHex());
-  pledge!.borrowedCjpyAmount = event.params.cjpyAmount.plus(
-    pledge!.borrowedCjpyAmount || BigInt.fromI32(0)
+  worldState.totalDebt = event.params.cjpyAmount.plus(worldState.totalDebt);
+  worldState.save();
+  let pledge = Pledge.load(event.transaction.from.toHex())!;
+  pledge.borrowedCjpyAmount = event.params.cjpyAmount.plus(
+    pledge.borrowedCjpyAmount || BigInt.fromI32(0)
   );
-  pledge!.save();
+  pledge.save();
 }
 
 export function handleWithdraw(event: Withdrawn): void {
   const withdraw = new Event(event.transaction.hash.toHex());
-  const worldState = WorldState.load(CJPY_ADDRESS);
+  const worldState = WorldState.load(CJPY_ADDRESS)!;
   withdraw.date = event.block.timestamp;
   withdraw.ethAmount = event.params.ethAmount;
   withdraw.address = event.transaction.from;
   withdraw.category = "Withdraw";
   withdraw.save();
-  worldState!.totalColl = worldState!.totalColl.minus(event.params.ethAmount);
-  worldState!.save();
-  let pledge = Pledge.load(event.transaction.from.toHex());
-  pledge!.ethAmount = pledge!.ethAmount!.minus(event.params.ethAmount);
-  pledge!.save();
+  worldState.totalColl = worldState.totalColl.minus(event.params.ethAmount);
+  worldState.save();
+  let pledge = Pledge.load(event.transaction.from.toHex())!;
+  pledge.ethAmount = pledge.ethAmount!.minus(event.params.ethAmount);
+  pledge.save();
 }
 
 export function handleRepay(event: Repaid): void {
   const repay = new Event(event.transaction.hash.toHex());
-  const worldState = WorldState.load(CJPY_ADDRESS);
+  const worldState = WorldState.load(CJPY_ADDRESS)!;
   repay.date = event.block.timestamp;
   repay.cjpyAmount = event.params.cjpyAmount;
   repay.address = event.transaction.from;
   repay.category = "Repay";
   repay.save();
-  worldState!.totalDebt = worldState!.totalDebt.minus(event.params.cjpyAmount);
-  worldState!.save();
-  let pledge = Pledge.load(event.transaction.from.toHex());
-  pledge!.borrowedCjpyAmount = pledge!.borrowedCjpyAmount.minus(
+  worldState.totalDebt = worldState.totalDebt.minus(event.params.cjpyAmount);
+  worldState.save();
+  let pledge = Pledge.load(event.transaction.from.toHex())!;
+  pledge.borrowedCjpyAmount = pledge.borrowedCjpyAmount.minus(
     event.params.cjpyAmount
   );
-  pledge!.save();
+  pledge.save();
 }
 
 export function handleRedeem(event: Redeemed): void {
   let redeem = Event.load(event.transaction.hash.toHexString());
-  const worldState = WorldState.load(CJPY_ADDRESS);
+  const worldState = WorldState.load(CJPY_ADDRESS)!;
   if (redeem === null) {
     redeem = new Event(event.transaction.hash.toHexString());
     redeem.date = event.block.timestamp;
@@ -110,9 +110,9 @@ export function handleRedeem(event: Redeemed): void {
   redeem.ethAmount = event.params.ethAmount;
   redeem.address = event.transaction.from;
   redeem.category = "Redeem";
-  worldState!.totalDebt = worldState!.totalDebt.minus(event.params.cjpyAmount);
-  worldState!.totalColl = worldState!.totalColl.minus(event.params.ethAmount);
-  worldState!.save();
+  worldState.totalDebt = worldState.totalDebt.minus(event.params.cjpyAmount);
+  worldState.totalColl = worldState.totalColl.minus(event.params.ethAmount);
+  worldState.save();
   const redeemedAddressList: Bytes[] = [];
   const pledgesOwner = event.params.pledgesOwner;
   for (let i = 0; i < pledgesOwner.length; i++) {
@@ -149,14 +149,14 @@ export function handleRedeemMeta(event: RedeemedMeta): void {
 
 export function handleSweep(event: Swept): void {
   const sweep = new Event(event.transaction.hash.toHex());
-  const worldState = WorldState.load(CJPY_ADDRESS);
+  const worldState = WorldState.load(CJPY_ADDRESS)!;
   sweep.date = event.block.timestamp;
   sweep.cjpyAmount = event.params.cjpyAmount;
   sweep.address = event.transaction.from;
   sweep.gasCompensationAmount = event.params.gasCompensationAmount;
   sweep.category = "Sweep";
-  worldState!.totalDebt = worldState!.totalDebt.minus(event.params.cjpyAmount);
-  worldState!.save();
+  worldState.totalDebt = worldState.totalDebt.minus(event.params.cjpyAmount);
+  worldState.save();
   const pledgesOwner = event.params.pledgesOwner;
   const sweepedAddressList: Bytes[] = [];
   for (let i = 0; i < pledgesOwner.length; i++) {
@@ -165,12 +165,12 @@ export function handleSweep(event: Swept): void {
       ownerAddress.toHexString() != "0x0000000000000000000000000000000000000000"
     ) {
       sweepedAddressList.push(ownerAddress);
-      const pledge = Pledge.load(ownerAddress.toHexString());
+      const pledge = Pledge.load(ownerAddress.toHexString())!;
       const yamatoContract = yamato.bind(event.address);
       const pledgeInfo = yamatoContract.getPledge(ownerAddress);
-      pledge!.borrowedCjpyAmount = pledgeInfo.debt;
-      pledge!.ethAmount = pledgeInfo.coll;
-      pledge!.save();
+      pledge.borrowedCjpyAmount = pledgeInfo.debt;
+      pledge.ethAmount = pledgeInfo.coll;
+      pledge.save();
     }
   }
   sweep.sweepedAddressList = sweepedAddressList;
@@ -221,13 +221,13 @@ export function handleFetchPrice(event: LastGoodPriceUpdated): void {
 }
 
 export function handleRedemptionReserve(event: RedemptionReserveDeposited): void {
-  let worldState = WorldState.load(CJPY_ADDRESS);
-  worldState!.redemptionReserve = event.params.param2;
-  worldState!.save();
+  let worldState = WorldState.load(CJPY_ADDRESS)!;
+  worldState.redemptionReserve = event.params.param2;
+  worldState.save();
 }
 
 export function handleSweepReserve(event: SweepReserveDeposited): void {
-  let worldState = WorldState.load(CJPY_ADDRESS);
-  worldState!.sweepReserve = event.params.param2;
-  worldState!.save();
+  let worldState = WorldState.load(CJPY_ADDRESS)!;
+  worldState.sweepReserve = event.params.param2;
+  worldState.save();
 }
