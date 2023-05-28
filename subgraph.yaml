@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: yamato
-    network: rinkeby
+    network: sepolia
     source:
-      address: "0xd93feb7ab94cc29ed6d4268bb90f8db96cc21fa8"   #rinkebyデプロイ後に追加
+      address: "0x5627b0ffF6efb653bcf2Be8AC8B1a4A9FA74C1CD"   #rinkebyデプロイ後に追加
       abi: yamato 
-      startBlock: 9500000
+      startBlock: 3540000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -44,11 +44,11 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: Cjpy
-    network: rinkeby
+    network: sepolia
     source:
-      address: "0xae188e37f1d918ed7fc81a6037ce1682d8ffad8e"
+      address: "0x77b3cdad39E3dd41576951f0f7f5be2fb0f7b90B"
       abi: cjpy
-      startBlock: 9500000
+      startBlock: 3540000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -64,11 +64,11 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: priceFeed
-    network: rinkeby
+    network: sepolia
     source:
-      address: "0x2c0f4a0b42827171f833451b7695de7137e6aed3"
+      address: "0xaD43Cfd389e90ce2Cf5918224E35Fc55f9F29B6c"
       abi: priceFeed
-      startBlock: 9500000
+      startBlock: 3540000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -84,11 +84,11 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: pool
-    network: rinkeby
+    network: sepolia
     source:
-      address: "0xb86e7e12696ed2758A51eB5A54817Fa4E09a52D2"
+      address: "0x7D3769881792e3Bea9D5F1AAf6227a5C8Cce1Fe3"
       abi: pool
-      startBlock: 9500000
+      startBlock: 3540000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

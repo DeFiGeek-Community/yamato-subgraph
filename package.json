@@ -10,9 +10,12 @@
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 DeFiGeek-Community/yamato-subgraph"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.33.1",
-    "@graphprotocol/graph-ts": "0.27.0",
+    "@graphprotocol/graph-cli": "^0.50.1",
+    "@graphprotocol/graph-ts": "^0.30.0",
     "abi-decoder": "^2.4.0",
-    "ethers": "^5.5.1"
+    "ethers": "^6.4.0"
+  },
+  "volta": {
+    "node": "18.13.0"
   }
 }
