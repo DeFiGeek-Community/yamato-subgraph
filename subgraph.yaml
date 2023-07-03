@@ -66,7 +66,7 @@ dataSources:
     name: priceFeed
     network: sepolia
     source:
-      address: "0xaD43Cfd389e90ce2Cf5918224E35Fc55f9F29B6c"
+      address: "0x09e5f95674d1658227e6152682B97DBa44c4c477"
       abi: priceFeed
       startBlock: 3540000
     mapping:
